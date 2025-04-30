@@ -42,3 +42,7 @@ models/
 
 # MyPy
 .mypy_cache/
+
+# Vector DB and metadata
+data/controls.db
+data/controls.faiss
