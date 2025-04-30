@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Local Node API + SQLite",
+        "description": "A Node.js Express API storing data in a local SQLite database, running on localhost:3000."
+    },
+    {
+        "name": "Desktop Python App",
+        "description": "A Python Flask app processing user uploads and saving files to the local filesystem."
+    },
+    {
+        "name": "Electron IoT Simulator",
+        "description": "An Electron-based desktop app simulating IoT sensor data over WebSocket to a local Python server."
+    }
+]
