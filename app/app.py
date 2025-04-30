@@ -16,49 +16,12 @@ def main():
     use_local = st.sidebar.checkbox("Use local model (Llama-2)", value=False)
     generate = st.sidebar.button("Generate Threat Model")
 
-    # Apply dark theme overrides
-    st.markdown("""
-        <style>
-        body, .block-container {
-            background-color: #0e1117;
-            color: #fafafa;
-        }
-        h1 {
-            color: #1f77b4;
-            font-size: 2.6rem;
-            margin-bottom: 0.2rem;
-        }
-        .subtitle {
-            color: #c0c0c0;
-            font-size: 1.05rem;
-            margin-bottom: 1.5rem;
-        }
-        .stButton > button {
-            background-color: #1f77b4;
-            color: white;
-        }
-        .stTextArea textarea {
-            background-color: #1a1d23;
-            color: #fafafa;
-        }
-        .stTextInput input {
-            background-color: #1a1d23;
-            color: #fafafa;
-        }
-        .stMarkdown, .stExpanderContent {
-            color: #fafafa;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    st.title("ThreatLens")
+    st.markdown("Automated STRIDE Threat Modeling with Control Grounding")
 
-    st.markdown("<h1>ThreatLens</h1>", unsafe_allow_html=True)
-    st.markdown("<div class='subtitle'>Automated STRIDE Threat Modeling with LLMs</div>", unsafe_allow_html=True)
-
-    # Input area in main panel
     st.subheader("System Description")
     manual_input = st.text_area("Paste or type system description", height=200)
 
-    # Collect embedding context if file uploaded
     context_chunks = []
     if uploaded_file:
         with tempfile.NamedTemporaryFile(delete=False, suffix=uploaded_file.name) as tmp:
@@ -75,21 +38,21 @@ def main():
         except Exception as e:
             st.error(f"Failed to process uploaded file: {e}")
 
-    # Main interaction output
     if generate and (manual_input or context_chunks):
         system_desc = manual_input if manual_input else "\n\n".join(context_chunks)
+        output = ""
         try:
             output = generate_threat_model(system_desc, use_local, context_chunks=context_chunks)
-            parsed = parse_stride_output(output)
-        except ValueError:
-            st.warning("Could not parse model output as structured JSON. Displaying raw output:")
-            st.markdown(output)
+            try:
+                parsed = parse_stride_output(output)
+                st.success("Threat model generated successfully.")
+                render_threat_model(parsed)
+                render_download_button(parsed)
+            except ValueError:
+                st.warning("Could not parse model output as structured JSON. Displaying raw output:")
+                st.markdown(output)
         except RuntimeError as e:
             st.error(str(e))
-        else:
-            st.success("Threat model generated successfully.")
-            render_threat_model(parsed)
-            render_download_button(parsed)
 
 if __name__ == "__main__":
     main()
