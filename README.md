@@ -1,8 +1,8 @@
-# ThreatLens
+# ModelMapper
 
 **Automated STRIDE-Based Threat Modeling Powered by LLMs**
 
-ThreatLens ingests system documentation such as SSPs, CMDB entries, or textual descriptions, and generates structured STRIDE threat models. It is designed to support cybersecurity analysts, compliance teams, and security architects looking to automate and standardize threat modeling workflows.
+ModelMapper ingests system documentation such as SSPs, CMDB entries, or textual descriptions, and generates structured STRIDE threat models. It is designed to support cybersecurity analysts, compliance teams, and security architects looking to automate and standardize threat modeling workflows.
 
 ---
 
@@ -23,8 +23,8 @@ ThreatLens ingests system documentation such as SSPs, CMDB entries, or textual d
 ## Getting Started
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ThreatLens.git
-cd ThreatLens
+git clone https://github.com/YOUR_USERNAME/ModelMapper.git
+cd ModelMapper
 
 python -m venv .venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
@@ -58,7 +58,7 @@ Set the following environment variables, either in a `.env` file or in your shel
 ## Directory Layout
 
 ```
-ThreatLens/
+ModelMapper/
 ├── app/                # Streamlit application code
 ├── core/               # Core threat modeling and embedding logic
 ├── data/               # Example inputs and static data
@@ -117,7 +117,7 @@ Compliance: GLBA, PCI-DSS, NIST SP 800-53
 }
 ```
 
-This example shows how ThreatLens ingests a system description (like a CMDB entry) and outputs a STRIDE-based threat model with controls that mitigate identified risks, tying each control back to a specific component.
+This example shows how ModelMapper ingests a system description (like a CMDB entry) and outputs a STRIDE-based threat model with controls that mitigate identified risks, tying each control back to a specific component.
 
 ---
 
