@@ -51,42 +51,42 @@ def generate_threat_model(system_description: str, use_local: bool = False, cont
 
     # Prompt with strict structure and sample JSON
     prompt = f"""
-You are a security assistant. Given the system description below, generate a threat model using the STRIDE framework.
+        You are a security assistant. Given the system description below, generate a threat model using the STRIDE framework.
 
-Respond only with a valid JSON object using the structure below.
-Do not add any Markdown formatting, explanation, or backticks. Return only pure JSON.
+        Respond only with a valid JSON object using the structure below.
+        Do not add any Markdown formatting, explanation, or backticks. Return only pure JSON.
 
-Each STRIDE category should be a key with a list of threats.
-Each threat must include: title, description, mitigation, system_component, and a list of controls.
-Each control must include: id (NIST control identifier) and a reason explaining why it applies.
+        Each STRIDE category should be a key with a list of threats.
+        Each threat must include: title, description, mitigation, system_component, and a list of controls.
+        Each control must include: id (NIST control identifier) and a reason explaining why it applies.
 
-Example format:
-{{
-  "System Name": "Payment Processing API",
-  "Spoofing": [
-    {{
-      "title": "OAuth Token Abuse",
-      "description": "An attacker may abuse token issuance via misconfigured OAuth 2.0 flows.",
-      "mitigation": "Restrict grant types and validate token scopes.",
-      "system_component": "OAuth 2.0 authentication",
-      "controls": [
+        Example format:
         {{
-          "id": "AC-3",
-          "reason": "OAuth requires enforcing access rights per session and user role."
+        "System Name": "Payment Processing API",
+        "Spoofing": [
+            {{
+            "title": "OAuth Token Abuse",
+            "description": "An attacker may abuse token issuance via misconfigured OAuth 2.0 flows.",
+            "mitigation": "Restrict grant types and validate token scopes.",
+            "system_component": "OAuth 2.0 authentication",
+            "controls": [
+                {{
+                "id": "AC-3",
+                "reason": "OAuth requires enforcing access rights per session and user role."
+                }}
+            ]
+            }}
+        ],
+        "Tampering": [],
+        "Repudiation": [],
+        "Information Disclosure": [],
+        "Denial of Service": [],
+        "Elevation of Privilege": []
         }}
-      ]
-    }}
-  ],
-  "Tampering": [],
-  "Repudiation": [],
-  "Information Disclosure": [],
-  "Denial of Service": [],
-  "Elevation of Privilege": []
-}}
 
-System Description:
-{system_description}
-"""
+        System Description:
+        {system_description}
+        """
 
     try:
         if use_local:
@@ -125,3 +125,4 @@ System Description:
 
     except Exception as e:
         return json.dumps({"error": str(e)})
+ 

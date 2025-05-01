@@ -14,6 +14,29 @@ def render_threat_model(threats):
         st.header(f"System Name: {system_name}")
         st.markdown("---")
 
+        # Summary block
+        total_threats = 0
+        unique_controls = set()
+        stride_categories = [
+            "Spoofing", "Tampering", "Repudiation",
+            "Information Disclosure", "Denial of Service", "Elevation of Privilege"
+        ]
+
+        for category in stride_categories:
+            items = threats.get(category, [])
+            total_threats += len(items)
+            for threat in items:
+                for ctl in threat.get("controls", []):
+                    unique_controls.add(ctl.get("id"))
+
+        st.info(
+            f"**Compliance Target:** {threats.get('Compliance Target', 'N/A')}  \n"
+            f"**Detected Threat Categories:** {sum(1 for cat in stride_categories if threats.get(cat))}  \n"
+            f"**Total Mapped Threats:** {total_threats}  \n"
+            f"**Unique Controls Mapped:** {len(unique_controls)}"
+        )
+        st.markdown("---")
+
     for category in [
         "Spoofing", "Tampering", "Repudiation",
         "Information Disclosure", "Denial of Service", "Elevation of Privilege"
@@ -40,7 +63,8 @@ def render_threat_model(threats):
                 for ctl in controls:
                     cid = ctl.get("id")
                     reason = ctl.get("reason", "")
-                    st.markdown(f"- `{cid}`: {reason}")
+                    short_reason = reason[:250] + "..." if len(reason) > 250 else reason
+                    st.markdown(f"- `{cid}`: {short_reason}")
 
             st.markdown("---")
 

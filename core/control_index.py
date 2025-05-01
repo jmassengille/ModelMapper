@@ -123,11 +123,13 @@ class ControlIndex:
                 "SELECT title, text, family FROM controls WHERE id = ?", (cid,)
             )
             title, text, family = cursor.fetchone()
+            score = float(dist)
             results.append({
-                'id': cid,
-                'title': title,
-                'text': text,
-                'family': family,
-                'score': float(dist)
+                "id": cid,
+                "title": row[0],
+                "text": row[1],
+                "family": row[2],
+                "score": round(score, 3) if score < 1e10 else "N/A"
             })
+
         return results
